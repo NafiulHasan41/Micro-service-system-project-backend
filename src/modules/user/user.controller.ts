@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { userService } from "./user.service";
 import { UserValidationSchema } from "./user.interface";
+import bcrypt from "bcrypt";
 
 const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -14,7 +15,52 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(400).json({
       success: false,
-      message: err.message || "Invalid input",
+      message: err.message || "Invalid input or user already exists",
+    });
+  }
+};
+
+const loginUser = async (req: Request, res: Response): Promise<void> => {
+  const { identifier, password } = req.body;
+  try {
+    const user = await userService.getUserByEmailOrPhone(identifier);
+    if (!user) {
+      res.status(401).json({ success: false, message: "Invalid credentials" });
+      return;
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      res.status(401).json({ success: false, message: "Invalid credentials" });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      data: { id: user._id, name: user.name, email: user.email, phone: user.phone },
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: "Error logging in",
+    });
+  }
+};
+
+// for updating password 
+const updatePassword = async (req: Request, res: Response): Promise<void> => {
+  const { userId, currentPassword, newPassword } = req.body;
+  try {
+    const response = await userService.updatePassword(userId, currentPassword, newPassword);
+    res.status(200).json({
+      success: true,
+      message: response.message,
+    });
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      message: err.message || "Failed to update password",
     });
   }
 };
@@ -109,8 +155,10 @@ const deleteUserById = async (req: Request, res: Response): Promise<void> => {
 
 export const userController = {
   createUser,
+  loginUser,
   getAllUsers,
   getUserById,
   updateUserById,
   deleteUserById,
+  updatePassword,
 };
