@@ -44,14 +44,6 @@ UserSchema.post("find", function (docs: any[], next: (err?: any) => void) {
   next();
 });
 
-UserSchema.post("findOne", function (doc: any, next: (err?: any) => void) {
-  if (doc) doc.password = "********";
-  next();
-});
 
-UserSchema.post("findOneAndUpdate", function (doc: any, next: (err?: any) => void) {
-  if (doc) doc.password = "********";
-  next();
-});
 
 export const UserModel = model<IUser>("User", UserSchema);

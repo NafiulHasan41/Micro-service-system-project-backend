@@ -5,13 +5,20 @@ import bcrypt from "bcrypt";
 
 const createUser = async (userData: IUser) => {
    // Checking if user exists with the same email or phone  as my system is built on email or phone 
-   const existingUser = await UserModel.findOne({
-    $or: [{ email: userData.email }, { phone: userData.phone }],
-  });
-
-  if (existingUser) {
-    throw new Error("User already exists with this email or phone number");
-  }
+   if(userData.email)
+   {
+     const existingUser = await UserModel.findOne({ email: userData.email });
+     if (existingUser) {
+       throw new Error("User already exists with this email");
+     }
+   }
+   else if(userData.phone)
+   {
+      const existingUser = await UserModel.findOne({ phone: userData.phone });
+      if (existingUser) {
+        throw new Error("User already exists with this email");
+      }
+   }
 
   // Create the new user using email or phone
   const user = await UserModel.create(userData);
@@ -19,10 +26,22 @@ const createUser = async (userData: IUser) => {
 };
 
 const getUserByEmailOrPhone = async (identifier: string) => {
-  const user = await UserModel.findOne({
-    $or: [{ email: identifier }, { phone: identifier }],
-  });
-  return user;
+  
+  if( identifier)
+  {
+    const user = await UserModel.findOne({
+   
+      $or: [{ email: identifier }, { phone: identifier }],
+    });
+    // console.log(user);
+    return user;
+
+  }
+  else
+  {
+    return;
+  }
+  
 };
 
 const updatePassword = async (userId: string, currentPassword: string, newPassword: string) => {

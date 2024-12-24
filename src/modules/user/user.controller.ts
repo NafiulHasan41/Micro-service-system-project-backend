@@ -2,6 +2,23 @@ import { Request, Response } from "express";
 import { userService } from "./user.service";
 import { UserValidationSchema } from "./user.interface";
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
+
+
+const generateToken = (
+  role: "user" | "serviceProvider" | "shopOwner" | "admin",
+  name: string,
+  email?: string,
+  phone?: string,
+  imageURL?: string
+): string => {
+  return jwt.sign(
+    {  role, name, email, phone, imageURL },
+    process.env.JWT_SECRET || '',
+    { expiresIn: '1d' }
+  );
+};
+
 
 const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -11,6 +28,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
       success: true,
       message: "User created successfully",
       data: user,
+      token: generateToken( user.role, user.name, user.email, user.phone, user.imageURL)
     });
   } catch (err: any) {
     res.status(400).json({
@@ -25,20 +43,21 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await userService.getUserByEmailOrPhone(identifier);
     if (!user) {
-      res.status(401).json({ success: false, message: "Invalid credentials" });
+      res.status(401).json({ success: false, message: "User not found, Invalid email or phone " });
       return;
     }
-
+    
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      res.status(401).json({ success: false, message: "Invalid credentials" });
+      res.status(401).json({ success: false, message: "Invalid Password" });
       return;
     }
 
     res.status(200).json({
       success: true,
       message: "Login successful",
-      data: { id: user._id, name: user.name, email: user.email, phone: user.phone },
+      data: { id: user._id, name: user.name, email: user.email, phone: user.phone , imageURL: user.imageURL},
+      token: generateToken( user.role, user.name, user.email, user.phone, user.imageURL)
     });
   } catch (err: any) {
     res.status(500).json({
