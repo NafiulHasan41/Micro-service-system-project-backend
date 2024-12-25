@@ -1,4 +1,3 @@
-import config from "../../config";
 import { IUser } from "./user.interface";
 import { UserModel } from "./user.model";
 import bcrypt from "bcrypt";
