@@ -6,7 +6,7 @@ const JobSchema = new Schema<IJob>({
   type: { type: String, enum: ["paid", "volunteer"], required: true },
   location: {
     type: { type: String, default: "Point" },
-    coordinates: { type: [Number], required: true },
+    coordinates: { type: [Number],  },
     address: { type: String, required: true },
   },
   job_title: { type: String, required: true },

@@ -9,7 +9,7 @@ export const JobBaseSchema = z.object({
     type: z.literal("Point").default("Point"),
     coordinates: z
       .array(z.number())
-      .length(2, "Coordinates must have exactly two numbers"), 
+      .length(2, "Coordinates must have exactly two numbers").optional(), 
     address: z.string().nonempty("Address is required"),
   }),
   job_title: z.string().nonempty("Job title is required"), 

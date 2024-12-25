@@ -23,7 +23,7 @@ const deleteJobById = async (jobId: string) => {
 
 
 
-export const jobService = {
+export const JobService = {
   createJob,
   getJobById,
   updateJobById,
