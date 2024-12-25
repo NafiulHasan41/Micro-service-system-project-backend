@@ -56,9 +56,7 @@ const updatePassword = async (userId: string, currentPassword: string, newPasswo
     throw new Error("Current password is incorrect");
   }
 
-  // Hashing the new password
-  const hashedPassword = await bcrypt.hash(newPassword, Number(config.bcryptSalt));
-  user.password = hashedPassword;
+  user.password = newPassword;
 
   // Save the password updated user
   await user.save();

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { userService } from "./user.service";
-import { UserValidationSchema } from "./user.interface";
+import { UserUpdateValidationSchema, UserValidationSchema } from "./user.interface";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 
@@ -33,7 +33,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(400).json({
       success: false,
-      message: err.message || "Invalid input or user already exists",
+      message: err || "Invalid input or user already exists",
     });
   }
 };
@@ -62,7 +62,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: "Error logging in",
+      message: err || "Failed to login",
     });
   }
 };
@@ -79,7 +79,7 @@ const updatePassword = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(400).json({
       success: false,
-      message: err.message || "Failed to update password",
+      message: err || "Failed to update password",
     });
   }
 };
@@ -95,7 +95,7 @@ const getAllUsers = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: "Error fetching users",
+      message: err || "Error fetching users",
     });
   }
 };
@@ -119,7 +119,7 @@ const getUserById = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: "Error fetching user",
+      message: err || "Error fetching user",
     });
   }
 };
@@ -127,7 +127,7 @@ const getUserById = async (req: Request, res: Response): Promise<void> => {
 const updateUserById = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   try {
-    const updatedData = UserValidationSchema.parse(req.body);
+    const updatedData = UserUpdateValidationSchema.parse(req.body);
     const updatedUser = await userService.updateUserById(id, updatedData);
     if (!updatedUser) {
       res.status(404).json({
@@ -144,7 +144,7 @@ const updateUserById = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: "Error updating user",
+      message: err
     });
   }
 };
@@ -167,7 +167,7 @@ const deleteUserById = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: "Error deleting user",
+      message: err || "Error deleting user",
     });
   }
 };
