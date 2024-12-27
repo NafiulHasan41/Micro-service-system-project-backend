@@ -8,5 +8,6 @@ router.post("/", serviceProviderController.createServiceProvider);
 router.get("/:id", serviceProviderController.getServiceProviderById);
 router.put("/:id", serviceProviderController.updateServiceProvider);
 router.delete("/:id", serviceProviderController.deleteServiceProvider);
+router.get("/", serviceProviderController.getAllServiceProviders);
 
 export default router;

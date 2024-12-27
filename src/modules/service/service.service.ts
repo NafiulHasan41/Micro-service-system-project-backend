@@ -23,11 +23,19 @@ const deleteServiceProvider = async (id: string) => {
 };
 
 
+const getAllServiceProviders = async (
+    filter: Partial<IServiceProvider> = {}
+  )=> {
+    return ServiceProviderModel.find(filter);
+  };
+
+
 
 export const serviceProviderService = {
   createServiceProvider,
   getServiceProviderById,
   updateServiceProvider,
   deleteServiceProvider,
+  getAllServiceProviders
 
 };

@@ -69,6 +69,19 @@ const deleteServiceProvider = async (req: Request, res: Response)=> {
      return
   }
 };
+const getAllServiceProviders = async (req: Request, res: Response) => {
+    try {
+      const serviceProviders = await serviceProviderService.getAllServiceProviders(req.query);
+       res.json(serviceProviders);
+       return
+    } catch (error: any) {
+        res.status(400).json({
+            success: false,
+            message: error || "Error fetching service providers",
+          });
+         return
+    }
+  };
 
 
 
@@ -77,4 +90,5 @@ export const serviceProviderController = {
   getServiceProviderById,
   updateServiceProvider,
   deleteServiceProvider,
+  getAllServiceProviders
 };
