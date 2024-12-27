@@ -4,7 +4,8 @@ import { UserModel } from "../modules/user/user.model";
 
 
 interface JwtPayload {
-  role: "user" | "serviceProvider" | "shopOwner" | "admin";
+  id: string;
+  role: "user" | "admin";
   name: string;
   email?: string;
   phone?: string;
@@ -58,14 +59,5 @@ export const adminOnly = (req: Request, res: Response, next: NextFunction): void
   next();
 };
 
-// Middleware to restrict access to service providers and shop owners
-export const serviceProviderOrShopOwnerOnly = (req: Request, res: Response, next: NextFunction): void => {
-  const allowedRoles = ["serviceProvider", "shopOwner"];
-  if (!allowedRoles.includes(req.user?.role || "")) {
-    res.status(403).json({ message: "Forbidden: Access restricted to service providers and shop owners" });
-    return;
-  }
-  next();
-};
 
 

@@ -9,7 +9,7 @@ const UserSchema: Schema<IUser> = new Schema(
     email: { type: String, unique: true, sparse: true }, 
     phone: { type: String, unique: true, sparse: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ["user", "serviceProvider", "shopOwner","admin"], default: "user" },
+    role: { type: String, enum: ["user","admin"], default: "user" },
     imageURL: { type: String },
     location: {
       type: {

@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 
 const generateToken = (
   id: string,
-  role: "user" | "serviceProvider" | "shopOwner" | "admin",
+  role: "user" | "admin",
   name: string,
   email?: string,
   phone?: string,

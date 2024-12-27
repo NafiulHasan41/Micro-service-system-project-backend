@@ -8,7 +8,7 @@ export const UserBaseSchema = z.object({
   email: z.string().email("Invalid email format").optional(),
   phone: z.string().regex(/^01[35789]\d{8}$/, "Invalid phone number in Bangladesh").optional(),
   password: z.string().min(8, "Password must be at least 8 characters long"),
-  role: z.enum(["user", "serviceProvider", "shopOwner", "admin"]).default("user"),
+  role: z.enum(["user", "admin"]).default("user"),
   imageURL: z.string().url("Invalid URL format").optional(),
   location: z
     .object({
