@@ -2,58 +2,79 @@ import { Request, Response } from "express";
 import { serviceProviderService } from "./service.service";
 
 
-const createServiceProvider = async (req: Request, res: Response): Promise<Response> => {
+const createServiceProvider = async (req: Request, res: Response) => {
   try {
     const serviceProvider = await serviceProviderService.createServiceProvider(req.body);
-    return res.status(201).json(serviceProvider);
+     res.status(201).json(serviceProvider);
+     return
   } catch (error: any) {
-    return res.status(400).json({ error: error.message });
+    res.status(400).json({
+        success: false,
+        message: error || "Invalid input or service provider creation failed",
+      });
+     return
   }
 };
 
-const getServiceProviderById = async (req: Request, res: Response): Promise<Response> => {
+const getServiceProviderById = async (req: Request, res: Response) => {
   try {
     const serviceProvider = await serviceProviderService.getServiceProviderById(req.params.id);
-    if (!serviceProvider) return res.status(404).json({ error: "Service Provider not found" });
-    return res.json(serviceProvider);
+    if (!serviceProvider) {
+         res.status(404).json({ error: "Service Provider not found" });
+         return
+        }
+     res.json(serviceProvider);
+        return
   } catch (error: any) {
-    return res.status(400).json({ error: error.message });
+    res.status(400).json({
+        success: false,
+        message: error || "Error fetching service provider",
+      });
+     return
   }
 };
 
-const updateServiceProvider = async (req: Request, res: Response): Promise<Response> => {
+const updateServiceProvider = async (req: Request, res: Response) => {
   try {
     const serviceProvider = await serviceProviderService.updateServiceProvider(req.params.id, req.body);
-    if (!serviceProvider) return res.status(404).json({ error: "Service Provider not found" });
-    return res.json(serviceProvider);
+    if (!serviceProvider) 
+        { res.status(404).json({ error: "Service Provider not found" });
+         return
+    }
+     res.json(serviceProvider);
+     return
   } catch (error: any) {
-    return res.status(400).json({ error: error.message });
+    res.status(400).json({
+        success: false,
+        message: error || "Invalid input or service provider update failed",
+      });
+     return
   }
 };
 
-const deleteServiceProvider = async (req: Request, res: Response): Promise<Response> => {
+const deleteServiceProvider = async (req: Request, res: Response)=> {
   try {
     const serviceProvider = await serviceProviderService.deleteServiceProvider(req.params.id);
-    if (!serviceProvider) return res.status(404).json({ error: "Service Provider not found" });
-    return res.json({ message: "Service Provider deleted successfully" });
+    if (!serviceProvider) {
+        res.status(404).json({ error: "Service Provider not found" });
+        return
+    }
+     res.json({ message: "Service Provider deleted successfully" });
+      return
   } catch (error: any) {
-    return res.status(400).json({ error: error.message });
+    res.status(400).json({
+        success: false,
+        message: error || "Error deleting service provider",
+      });
+     return
   }
 };
 
-const getAllServiceProviders = async (req: Request, res: Response): Promise<Response> => {
-  try {
-    const serviceProviders = await serviceProviderService.getAllServiceProviders(req.query);
-    return res.json(serviceProviders);
-  } catch (error: any) {
-    return res.status(400).json({ error: error.message });
-  }
-};
+
 
 export const serviceProviderController = {
   createServiceProvider,
   getServiceProviderById,
   updateServiceProvider,
   deleteServiceProvider,
-  getAllServiceProviders,
 };

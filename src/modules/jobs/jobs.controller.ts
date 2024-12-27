@@ -17,7 +17,7 @@ const createJob = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(400).json({
       success: false,
-      message: err.message || "Invalid input or job creation failed",
+      message: err || "Invalid input or job creation failed",
     });
   }
 };
@@ -41,7 +41,7 @@ const getJobById = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(400).json({
       success: false,
-      message: err.message || "Error fetching job",
+      message: err || "Error fetching job",
     });
   }
 };
@@ -66,7 +66,7 @@ const updateJob = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(400).json({
       success: false,
-      message: err.message || "Error updating job",
+      message: err || "Error updating job",
     });
   }
 };
@@ -89,7 +89,7 @@ const deleteJob = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(400).json({
       success: false,
-      message: err.message || "Error deleting job",
+      message: err || "Error deleting job",
     });
   }
 };
@@ -114,7 +114,7 @@ const getUserJobs = async (req: Request, res: Response): Promise<void> => {
     } catch (err: any) {
       res.status(400).json({
         success: false,
-        message: err.message || "Error fetching jobs",
+        message: err || "Error fetching jobs",
       });
     }
   };
@@ -150,7 +150,7 @@ const getUserJobs = async (req: Request, res: Response): Promise<void> => {
     } catch (err: any) {
       res.status(400).json({
         success: false,
-        message: err.message || "Error fetching filtered jobs",
+        message: err || "Error fetching filtered jobs",
       });
     }
   };
