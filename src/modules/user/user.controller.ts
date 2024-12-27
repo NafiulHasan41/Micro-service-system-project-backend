@@ -174,6 +174,14 @@ const deleteUserById = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+ const getMe = (req: Request, res: Response): void => {
+  if (req.user) {
+    res.status(200).json(req.user);
+  } else {
+    res.status(401).json({ message: 'Not authenticated' });
+  }
+};
+
 export const userController = {
   createUser,
   loginUser,
@@ -182,4 +190,5 @@ export const userController = {
   updateUserById,
   deleteUserById,
   updatePassword,
+  getMe
 };
