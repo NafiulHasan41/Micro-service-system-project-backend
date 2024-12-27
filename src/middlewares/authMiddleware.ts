@@ -35,6 +35,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction): 
 
     // Attach user details to the request object
     req.user = {
+      id: user.id,
       role: user.role,
       name: user.name,
       email: user.email,

@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 
 
 const generateToken = (
+  id: string,
   role: "user" | "serviceProvider" | "shopOwner" | "admin",
   name: string,
   email?: string,
@@ -13,7 +14,7 @@ const generateToken = (
   imageURL?: string
 ): string => {
   return jwt.sign(
-    {  role, name, email, phone, imageURL },
+    { id , role, name, email, phone, imageURL },
     process.env.JWT_SECRET || '',
     { expiresIn: '1d' }
   );
@@ -28,7 +29,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
       success: true,
       message: "User created successfully",
       data: user,
-      token: generateToken( user.role, user.name, user.email, user.phone, user.imageURL)
+      token: generateToken( user.id ,user.role, user.name, user.email, user.phone, user.imageURL)
     });
   } catch (err: any) {
     res.status(400).json({
@@ -57,7 +58,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       success: true,
       message: "Login successful",
       data: { id: user._id, name: user.name, email: user.email, phone: user.phone , imageURL: user.imageURL},
-      token: generateToken( user.role, user.name, user.email, user.phone, user.imageURL)
+      token: generateToken( user.id, user.role, user.name, user.email, user.phone, user.imageURL)
     });
   } catch (err: any) {
     res.status(500).json({
@@ -69,7 +70,8 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
 
 // for updating password 
 const updatePassword = async (req: Request, res: Response): Promise<void> => {
-  const { userId, currentPassword, newPassword } = req.body;
+  const {  currentPassword, newPassword } = req.body;
+   const userId= req.user?.id;
   try {
     const response = await userService.updatePassword(userId, currentPassword, newPassword);
     res.status(200).json({

@@ -94,10 +94,74 @@ const deleteJob = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const getUserJobs = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const posterId = req.user?.id; 
+      if (!posterId) {
+        res.status(401).json({
+          success: false,
+          message: "Unauthorized: User ID not found",
+        });
+        return;
+      }
+  
+      const jobs = await JobService.getUserJobs(posterId);
+      res.status(200).json({
+        success: true,
+        message: "Jobs fetched successfully",
+        data: jobs,
+      });
+    } catch (err: any) {
+      res.status(400).json({
+        success: false,
+        message: err.message || "Error fetching jobs",
+      });
+    }
+  };
+  
+  const getFilteredJobs = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const {
+        type,
+        minSalary,
+        maxSalary,
+        job_category,
+        tags,
+        search,
+        page = 1,
+        limit = 10,
+      } = req.query;
+  
+      const filters = {
+        type: type as string,
+        minSalary: minSalary ? Number(minSalary) : undefined,
+        maxSalary: maxSalary ? Number(maxSalary) : undefined,
+        job_category: job_category as string,
+        tags: tags ? (tags as string).split(",") : undefined,
+        search: search as string,
+      };
+  
+      const result = await JobService.getFilteredJobs(filters, Number(page), Number(limit));
+      res.status(200).json({
+        success: true,
+        message: "Filtered jobs fetched successfully",
+        data: result,
+      });
+    } catch (err: any) {
+      res.status(400).json({
+        success: false,
+        message: err.message || "Error fetching filtered jobs",
+      });
+    }
+  };
+  
+
 
 export const jobController = {
   createJob,
   getJobById,
   updateJob,
   deleteJob,
+  getUserJobs,
+  getFilteredJobs,
 };
