@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ApplyService } from "./apply.service";
 
-export const createApplication = async (req: Request, res: Response): Promise<void> => {
+ const createApplication = async (req: Request, res: Response): Promise<void> => {
   try {
     const application = await ApplyService.createApplication(req.body);
     res.status(201).json({
@@ -17,7 +17,7 @@ export const createApplication = async (req: Request, res: Response): Promise<vo
   }
 };
 
-export const getApplicationById = async (req: Request, res: Response): Promise<void> => {
+ const getApplicationById = async (req: Request, res: Response): Promise<void> => {
   try {
     const application = await ApplyService.getApplicationById(req.params.id);
     if (!application) {
@@ -40,7 +40,7 @@ export const getApplicationById = async (req: Request, res: Response): Promise<v
   }
 };
 
-export const updateApplicationById = async (req: Request, res: Response): Promise<void> => {
+ const updateApplicationById = async (req: Request, res: Response): Promise<void> => {
   try {
     const application = await ApplyService.updateApplicationById(req.params.id, req.body);
     if (!application) {
@@ -63,7 +63,7 @@ export const updateApplicationById = async (req: Request, res: Response): Promis
   }
 };
 
-export const deleteApplicationById = async (req: Request, res: Response): Promise<void> => {
+ const deleteApplicationById = async (req: Request, res: Response): Promise<void> => {
   try {
     const result = await ApplyService.deleteApplicationById(req.params.id);
     if (!result) {
@@ -85,7 +85,7 @@ export const deleteApplicationById = async (req: Request, res: Response): Promis
   }
 };
 
-export const getApplicationsByTaskId = async (req: Request, res: Response): Promise<void> => {
+ const getApplicationsByTaskId = async (req: Request, res: Response): Promise<void> => {
   try {
     const applications = await ApplyService.getApplicationsByTaskId(req.params.taskId);
     res.status(200).json({
@@ -99,4 +99,12 @@ export const getApplicationsByTaskId = async (req: Request, res: Response): Prom
       message: error.message || "Error retrieving applications",
     });
   }
+};
+
+export const applyController = {
+    createApplication,
+    getApplicationById,
+    updateApplicationById,
+    deleteApplicationById,
+    getApplicationsByTaskId,
 };
