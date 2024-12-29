@@ -29,7 +29,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
       success: true,
       message: "User created successfully",
       data: user,
-      token: generateToken( user.id ,user.role, user.name, user.email, user.phone, user.imageURL)
+      token: generateToken( user.id ,user.role, user.name, user?.email, user?.phone, user?.imageURL)
     });
   } catch (err: any) {
     res.status(400).json({

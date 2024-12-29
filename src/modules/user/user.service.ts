@@ -4,14 +4,14 @@ import bcrypt from "bcrypt";
 
 const createUser = async (userData: IUser) => {
    // Checking if user exists with the same email or phone  as my system is built on email or phone 
-   if(userData.email)
+   if(userData?.email)
    {
      const existingUser = await UserModel.findOne({ email: userData.email });
      if (existingUser) {
        throw new Error("User already exists with this email");
      }
    }
-   else if(userData.phone)
+   else if(userData?.phone)
    {
       const existingUser = await UserModel.findOne({ phone: userData.phone });
       if (existingUser) {
