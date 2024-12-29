@@ -12,6 +12,11 @@ declare global {
         email?: string;
         phone?: string;
         imageURL?: string;
+        location?: {
+          type: string;
+          coordinates?: number[];
+          address?: string;
+        };
       };
     }
   }

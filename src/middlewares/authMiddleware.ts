@@ -10,6 +10,11 @@ interface JwtPayload {
   email?: string;
   phone?: string;
   imageURL?: string;
+  location?:{
+    type: string;
+    coordinates?: number[];
+    address?: string;
+  }
 }
 
 // Middleware to protect routes
@@ -42,6 +47,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction): 
       email: user.email,
       phone: user.phone,
       imageURL: user.imageURL,
+      location: user.location,
     };
 
     next();

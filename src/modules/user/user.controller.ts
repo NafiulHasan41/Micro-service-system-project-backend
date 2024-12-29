@@ -11,10 +11,15 @@ const generateToken = (
   name: string,
   email?: string,
   phone?: string,
-  imageURL?: string
+  imageURL?: string,
+  location?:{
+    type: string;
+    coordinates?: number[];
+    address?: string;
+  }
 ): string => {
   return jwt.sign(
-    { id , role, name, email, phone, imageURL },
+    { id , role, name, email, phone, imageURL, location },
     process.env.JWT_SECRET || '',
     { expiresIn: '1d' }
   );
@@ -29,7 +34,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
       success: true,
       message: "User created successfully",
       data: user,
-      token: generateToken( user.id ,user.role, user.name, user?.email, user?.phone, user?.imageURL)
+      token: generateToken( user.id ,user.role, user.name, user?.email, user?.phone, user?.imageURL , user?.location)
     });
   } catch (err: any) {
     
@@ -59,8 +64,8 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({
       success: true,
       message: "Login successful",
-      data: { id: user._id, name: user.name, email: user.email, phone: user.phone , imageURL: user.imageURL},
-      token: generateToken( user.id, user.role, user.name, user.email, user.phone, user.imageURL)
+      data: { id: user._id, name: user.name, email: user.email, phone: user.phone , imageURL: user.imageURL, location: user.location },
+      token: generateToken( user.id, user.role, user.name, user.email, user.phone, user.imageURL , user.location)
     });
   } catch (err: any) {
     res.status(500).json({
