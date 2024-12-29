@@ -32,10 +32,12 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
       token: generateToken( user.id ,user.role, user.name, user?.email, user?.phone, user?.imageURL)
     });
   } catch (err: any) {
+    
     res.status(400).json({
       success: false,
-      message: err || "Invalid input or user already exists",
+      message: err.message || "Invalid input or user already exists",
     });
+    
   }
 };
 
@@ -63,7 +65,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: err || "Failed to login",
+      message: err.message || "Failed to login",
     });
   }
 };
