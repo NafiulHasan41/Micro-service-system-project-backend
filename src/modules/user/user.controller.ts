@@ -4,7 +4,7 @@ import { UserUpdateValidationSchema, UserValidationSchema } from "./user.interfa
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 
-
+// need check while registration if user already exists
 const generateToken = (
   id: string,
   role: "user" | "admin",
