@@ -96,6 +96,7 @@ const deleteJob = async (req: Request, res: Response): Promise<void> => {
 
 const getUserJobs = async (req: Request, res: Response): Promise<void> => {
     try {
+      // console.log(req.user);
       const posterId = req.user?.id; 
       if (!posterId) {
         res.status(401).json({

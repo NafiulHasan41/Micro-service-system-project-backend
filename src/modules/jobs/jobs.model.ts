@@ -14,7 +14,7 @@ const JobSchema = new Schema<IJob>({
   tags: { type: [String], default: [] },
   salary: { type: String },
   posterId: { type: String, required: true },
-  deadline: { type: Date },
+  deadline: { type: String },
   job_category: { type: String, required: true },
 }, { timestamps: true }); 
 

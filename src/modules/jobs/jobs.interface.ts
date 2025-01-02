@@ -17,7 +17,7 @@ export const JobBaseSchema = z.object({
   tags: z.array(z.string()).optional(), 
   salary: z.string().optional(), 
   posterId: z.string().nonempty("Poster ID is required"), 
-  deadline: z.date().optional(),
+  deadline: z.string().optional(),
   job_category: z.string().nonempty("Job category is required"),
 });
 
