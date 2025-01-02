@@ -1,13 +1,14 @@
 import express from "express";
 import { serviceProviderController } from "./service.controller";
+import { protect } from "../../middlewares/authMiddleware";
 
 
 const router = express.Router();
 
-router.post("/", serviceProviderController.createServiceProvider);
-router.get("/:id", serviceProviderController.getServiceProviderById);
-router.patch("/:id", serviceProviderController.updateServiceProvider);
-router.delete("/:id", serviceProviderController.deleteServiceProvider);
+router.post("/", protect, serviceProviderController.createServiceProvider);
 router.get("/", serviceProviderController.getAllServiceProviders);
+router.get("/:id", serviceProviderController.getServiceProviderById);
+router.patch("/:id", protect ,  serviceProviderController.updateServiceProvider);
+router.delete("/:id", protect , serviceProviderController.deleteServiceProvider);
 
-export default router;
+export const serviceProviderRoute = router;

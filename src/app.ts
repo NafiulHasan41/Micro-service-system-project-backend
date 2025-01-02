@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import { userRoutes } from './modules/user/user.routes';
 import { jobRoutes } from './modules/jobs/jobs.routes';
+import { serviceProviderRoute } from './modules/service/service.router';
 const app: Application = express();
 
 //parsers
@@ -11,6 +12,7 @@ app.use(cors());
 //application routes
 app.use("/api/users", userRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/service-providers", serviceProviderRoute  );
 
 
 
