@@ -55,10 +55,15 @@ const getUserJobs = async (posterId: string): Promise<IJob[]> => {
         { description: { $regex: filters.search, $options: "i" } }, // Search in description
       ];
     }
-  
+  //  console.log("checking match",match)
     // Aggregation pipeline
     const jobs = await JobModel.aggregate([
-      { $match: match }, // Apply match filters
+      { $match: match },
+      {
+        $addFields: {
+          posterId: { $toObjectId: "$posterId" }
+        }
+      }, 
       {
         $lookup: {
           from: "users", // Name of the user collection
@@ -80,6 +85,8 @@ const getUserJobs = async (posterId: string): Promise<IJob[]> => {
           posterDetails: {
             name: 1,
             imageURL: 1,
+            email:1,
+            phone:1,
             location: 1,
           },
         },

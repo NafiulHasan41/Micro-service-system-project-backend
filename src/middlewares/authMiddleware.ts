@@ -40,10 +40,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction): 
     {
       user = await UserModel.findOne({ phone: decoded.phone });
     }
-    {
-      res.status(401).json({ message: "Unauthorized: User not found" });
-      return;
-    }
+
     // const user = await UserModel.findOne({
     //   $or: [{ email: decoded.email }, { phone: decoded.phone }],
     // });
