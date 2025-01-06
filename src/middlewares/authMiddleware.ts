@@ -30,9 +30,23 @@ export const protect = async (req: Request, res: Response, next: NextFunction): 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "") as JwtPayload;
 
     // Find the user in the database using email or phone
-    const user = await UserModel.findOne({
-      $or: [{ email: decoded.email }, { phone: decoded.phone }],
-    });
+    // need to change the logic as or might not work
+    let user;
+    if(decoded.email)
+    {
+      user = await UserModel.findOne({ email: decoded.email });
+    }
+    else if(decoded.phone)
+    {
+      user = await UserModel.findOne({ phone: decoded.phone });
+    }
+    {
+      res.status(401).json({ message: "Unauthorized: User not found" });
+      return;
+    }
+    // const user = await UserModel.findOne({
+    //   $or: [{ email: decoded.email }, { phone: decoded.phone }],
+    // });
 
     if (!user) {
       res.status(401).json({ message: "Unauthorized: User not found" });
