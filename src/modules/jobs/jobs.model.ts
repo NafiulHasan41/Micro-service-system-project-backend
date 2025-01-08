@@ -12,7 +12,7 @@ const JobSchema = new Schema<IJob>({
   job_title: { type: String, required: true },
   description: { type: String, required: true },
   tags: { type: [String], default: [] },
-  salary: { type: String },
+  salary: { type: Number },
   posterId: { type: String, required: true },
   deadline: { type: String },
   job_category: { type: String, required: true },
