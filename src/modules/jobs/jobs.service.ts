@@ -1,3 +1,4 @@
+import { create } from "domain";
 import { IJob } from "./jobs.interface";
 import { JobModel } from "./jobs.model";
 
@@ -82,7 +83,10 @@ const getUserJobs = async (posterId: string): Promise<IJob[]> => {
           tags: 1,
           salary: 1,
           job_category: 1,
+          deadline: 1,
+          updatedAt: 1,
           posterDetails: {
+            _id:1,
             name: 1,
             imageURL: 1,
             email:1,
