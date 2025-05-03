@@ -33,7 +33,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     res.status(201).json({
       success: true,
       message: "User created successfully",
-      data: user,
+      data: { id: user._id, role: user.role, name: user.name, email: user.email, phone: user.phone , imageURL: user.imageURL, location: user.location },
       token: generateToken( user.id ,user.role, user.name, user?.email, user?.phone, user?.imageURL , user?.location)
     });
   } catch (err: any) {
@@ -64,7 +64,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({
       success: true,
       message: "Login successful",
-      data: { id: user._id, name: user.name, email: user.email, phone: user.phone , imageURL: user.imageURL, location: user.location },
+      data: { id: user._id,role: user.role, name: user.name, email: user.email, phone: user.phone , imageURL: user.imageURL, location: user.location },
       token: generateToken( user.id, user.role, user.name, user.email, user.phone, user.imageURL , user.location)
     });
   } catch (err: any) {

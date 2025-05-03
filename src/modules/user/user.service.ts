@@ -15,7 +15,7 @@ const createUser = async (userData: IUser) => {
    {
       const existingUser = await UserModel.findOne({ phone: userData.phone });
       if (existingUser) {
-        throw new Error("User already exists with this email");
+        throw new Error("User already exists with this phone number");
       }
    }
 

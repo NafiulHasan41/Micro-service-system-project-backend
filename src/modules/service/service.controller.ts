@@ -23,7 +23,7 @@ const getServiceProviderById = async (req: Request, res: Response) => {
          res.status(404).json({ error: "Service Provider not found" });
          return
         }
-     res.json(serviceProvider);
+     res.status(200).json(serviceProvider);
         return
   } catch (error: any) {
     res.status(400).json({
@@ -72,7 +72,7 @@ const deleteServiceProvider = async (req: Request, res: Response)=> {
 const getAllServiceProviders = async (req: Request, res: Response) => {
     try {
       const serviceProviders = await serviceProviderService.getAllServiceProviders(req.query);
-       res.json(serviceProviders);
+       res.status(200).json(serviceProviders);
        return
     } catch (error: any) {
         res.status(400).json({
