@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { JobClickService } from './jobClick.service';
 import { IJobClickCreate } from './jobClick.interface';
 import { Types } from 'mongoose';
+import { JobClick } from './JobClick.model';
 
 export class JobClickController {
   private jobClickService = new JobClickService();
@@ -31,6 +32,22 @@ export class JobClickController {
       // Validate required fields
       if (!jobId || !jobType || !jobCategory || !jobLocation || !actionType) {
         res.status(400).json({ success: false, message: 'Missing required job click data' });
+        return;
+      }
+
+         // Check if the same job click from this user already exists
+      const existingClick = await JobClick.findOne({
+        userId: new Types.ObjectId(userId),
+        jobId: new Types.ObjectId(jobId),
+        actionType: actionType
+      });
+  
+      // If it exists, just return success without saving again
+      if (existingClick) {
+        res.status(200).json({
+          success: true,
+          message: 'Job click already recorded'
+        });
         return;
       }
 

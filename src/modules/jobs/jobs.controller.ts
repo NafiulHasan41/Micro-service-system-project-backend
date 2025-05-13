@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { JobService } from "./jobs.service";
 import { JobUpdateValidationSchema, JobValidationSchema } from "./jobs.interface";
+import { UserModel } from "../user/user.model";
 
 
 
@@ -33,10 +34,15 @@ const getJobById = async (req: Request, res: Response): Promise<void> => {
       });
       return;
     }
+    const poster = await UserModel.findById(job.posterId);
+    
     res.status(200).json({
       success: true,
       message: "Job fetched successfully",
-      data: job,
+      data: {
+        ...job.toObject(),
+        poster: poster || null,
+      },
     });
   } catch (err: any) {
     res.status(400).json({
